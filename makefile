@@ -1,4 +1,13 @@
 #https://github.com/slimtoolkit/slim
+.PHONY: list build push version test-slim test-original enter
+
+list:
+	@grep -E '^[a-zA-Z0-9_-]+:' $(MAKEFILE_LIST) | grep -v '^\.' | sed 's/:.*//' | sort
+
+# Bare `make` lists rather than builds: the build pulls, slims and retags, which
+# is not what anyone wants by accident.
+.DEFAULT_GOAL := list
+
 
 # 8.0, not 8: Docker Hub moved 8.4 LTS into the `8` tag, so `mysql:8` crosses a
 # major version. Aurora 3.x and every deployed environment are on 8.0.
